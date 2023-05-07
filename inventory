@@ -1,0 +1,15 @@
+[master]
+MASTER.IP.ADDRESS.HERE
+
+[master:vars]
+ansible_ssh_user=
+ansible_ssh_pass=
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+[nodes]
+NODES.IP.ADDRESSES.HERE
+
+[nodes:vars]
+ansible_ssh_user=
+ansible_ssh_pass=
+ansible_ssh_private_key_file=~/.ssh/id_rsa
