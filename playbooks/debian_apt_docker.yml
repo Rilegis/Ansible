@@ -1,0 +1,43 @@
+# STATUS: tested
+
+- hosts: nodes
+  become: yes       # true: execute as root; false: execute as normal user
+  vars:
+    deb_architecture: { "armv6l": "armhf", "armv7l": "armhf", "aarch64": "arm64", "x86_64": "amd64", "i386": "i386" }
+
+  tasks:    
+    - name: Add Docker GPG key to APT
+      apt_key:
+        url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+        state: present
+    
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch={{ deb_architecture[ansible_architecture] }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+        state: present
+        filename: docker
+    
+    - name: Update packages
+      apt:
+        state: latest
+        update_cache: true
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: latest
+        update_cache: true
+
+    - name: Install Docker
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
