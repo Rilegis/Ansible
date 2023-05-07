@@ -1,0 +1,10 @@
+# STATUS: tested
+
+- hosts: nodes
+  become: yes       # true: execute as root; false: execute as normal user
+  tasks:
+    - name: Install aptitude (if not present) and update the system
+      apt:
+        state: latest
+        update_cache: true
+        upgrade: 'yes'
